@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pokemon Card</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at top, #fff7c0, #1b4332);
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Gradient Border */
+.card-wrapper {
+    background: linear-gradient(135deg, #ffcb05, #3b4cca, #00f5d4);
+    padding: 4px;
+    border-radius: 26px;
+    animation: pulse 4s infinite;
+}
+
+/* Glass Card */
+.card {
+    width: 380px;
+    padding: 30px;
+    border-radius: 22px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+    transition: all 0.5s ease;
+}
+
+.card:hover {
+    transform: translateY(-20px) scale(1.05);
+}
+
+/* Floating Effect */
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+    100% { transform: translateY(0); }
+}
+
+.card img {
+    width: 200px;
+    margin-bottom: 15px;
+    animation: float 3s ease-in-out infinite;
+    filter: drop-shadow(0 12px 20px rgba(255, 203, 5, 0.8));
+}
+
+h1 {
+    font-size: 32px;
+    color: #3b4cca;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+
+p {
+    color: #333;
+    font-size: 15px;
+    line-height: 1.7;
+    margin-bottom: 12px;
+}
+
+/* Type Badge */
+.type {
+    margin-top: 18px;
+    padding: 12px 30px;
+    font-size: 15px;
+    background: linear-gradient(45deg, #ffd60a, #ff9f1c);
+    border-radius: 50px;
+    color: #000;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    box-shadow: 0 0 25px rgba(255, 203, 5, 0.8);
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+    0% { box-shadow: 0 0 20px rgba(255, 203, 5, 0.6); }
+    50% { box-shadow: 0 0 40px rgba(0, 245, 212, 0.8); }
+    100% { box-shadow: 0 0 20px rgba(255, 203, 5, 0.6); }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card-wrapper">
+    <div class="card">
+        <img src="https://i.etsystatic.com/25317796/r/il/36b490/3887674979/il_570xN.3887674979_ouxm.jpg" alt="Pikachu">
+
+        <h1>Pikachu</h1>
+
+        <p>Pokémon are cute, powerful, and full of adventure.</p>
+        <p>They teach friendship, courage, and teamwork.</p>
+        <p>Pikachu shines with lightning-fast electric powers.</p>
+
+        <div class="type">⚡ ELECTRIC TYPE</div>
+    </div>
+</div>
+
+</body>
+</html>

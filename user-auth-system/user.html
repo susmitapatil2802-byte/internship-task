@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Data</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f9f9f9;
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px gray;
+        }
+        p {
+            margin: 6px 0;
+        }
+        button {
+            margin-top: 10px;
+            padding: 8px;
+            width: 100%;
+            background: red;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>User Details</h2>
+    <p><b>Name:</b> <span id="name"></span></p>
+    <p><b>Age:</b> <span id="age"></span></p>
+    <p><b>Phone:</b> <span id="phone"></span></p>
+    <p><b>Email:</b> <span id="email"></span></p>
+    <p><b>Address:</b> <span id="address"></span></p>
+    <p><b>Pincode:</b> <span id="pincode"></span></p>
+
+    <button onclick="logout()">Logout</button>
+</div>
+
+<script>
+if (!localStorage.getItem("loggedIn")) {
+    window.location.href = "login.html";
+}
+
+let user = JSON.parse(localStorage.getItem("userData"));
+
+name.innerText = user.name;
+age.innerText = user.age;
+phone.innerText = user.phone;
+email.innerText = user.email;
+address.innerText = user.address;
+pincode.innerText = user.pincode;
+
+function logout() {
+    localStorage.removeItem("loggedIn");
+    alert("Logged out successfully");
+    window.location.href = "login.html";
+}
+</script>
+
+</body>
+</html>

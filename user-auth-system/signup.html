@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Signup</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .box {
+            background: white;
+            padding: 25px;
+            width: 350px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px #aaa;
+        }
+        input, textarea, button {
+            width: 100%;
+            margin: 8px 0;
+            padding: 8px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>Signup</h2>
+
+    <input type="text" id="name" placeholder="Full Name">
+    <input type="number" id="age" placeholder="Age">
+    <input type="text" id="phone" placeholder="Phone">
+    <input type="email" id="email" placeholder="Email">
+    <textarea id="address" placeholder="Address"></textarea>
+    <input type="number" id="pincode" placeholder="Pincode">
+    <input type="password" id="password" placeholder="Password">
+
+    <button onclick="signup()">Register</button>
+</div>
+
+<script>
+function signup() {
+    let name = document.getElementById("name").value;
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+
+    if (name === "" || email === "" || password === "") {
+        alert("Name, Email and Password are required!");
+        return;
+    }
+
+    let user = {
+        name: name,
+        age: document.getElementById("age").value,
+        phone: document.getElementById("phone").value,
+        email: email,
+        address: document.getElementById("address").value,
+        pincode: document.getElementById("pincode").value,
+        password: password
+    };
+
+    localStorage.setItem("userData", JSON.stringify(user));
+
+    // Redirect with email & phone
+    window.location.href = "login.html?email=" + email + "&phone=" + user.phone;
+}
+</script>
+
+</body>
+</html>

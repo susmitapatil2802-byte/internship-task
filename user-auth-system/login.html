@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #e6f0ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .box {
+            background: white;
+            padding: 25px;
+            width: 320px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px #aaa;
+        }
+        input, button {
+            width: 100%;
+            margin: 8px 0;
+            padding: 8px;
+        }
+        button {
+            background: #2196F3;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>Login</h2>
+
+    <input type="text" id="loginEmail" placeholder="Email / Phone">
+    <input type="password" id="loginPassword" placeholder="Password">
+
+    <button onclick="login()">Login</button>
+</div>
+
+<script>
+// Auto-fill email / phone
+const params = new URLSearchParams(window.location.search);
+document.getElementById("loginEmail").value =
+    params.get("email") || params.get("phone") || "";
+
+function login() {
+    let storedUser = JSON.parse(localStorage.getItem("userData"));
+    let input = document.getElementById("loginEmail").value;
+    let password = document.getElementById("loginPassword").value;
+
+    if (!storedUser) {
+        alert("No user registered!");
+        return;
+    }
+
+    if ((input === storedUser.email || input === storedUser.phone) &&
+        password === storedUser.password) {
+        alert("Login Successful!");
+    } else {
+        alert("Invalid credentials!");
+    }
+}
+</script>
+
+</body>
+</html>

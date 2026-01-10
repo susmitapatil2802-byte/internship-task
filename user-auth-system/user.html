@@ -1,65 +1,183 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>User Data</title>
+    <meta charset="UTF-8">
+    <title>User Info</title>
     <style>
         body {
             font-family: Arial;
-            background: #f9f9f9;
+            background: #f2f4f8;
             padding: 20px;
         }
         .card {
-            background: white;
-            max-width: 400px;
+            max-width: 420px;
             margin: auto;
+            background: white;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px gray;
+            box-shadow: 0 0 10px #aaa;
         }
-        p {
-            margin: 6px 0;
+        .row {
+            margin: 8px 0;
+        }
+        input {
+            width: 100%;
+            padding: 6px;
         }
         button {
-            margin-top: 10px;
-            padding: 8px;
             width: 100%;
-            background: red;
-            color: white;
-            border: none;
+            padding: 8px;
+            margin-top: 8px;
+            cursor: pointer;
+        }
+        .btn-blue { background: #1976d2; color: white; border: none; }
+        .btn-green { background: green; color: white; border: none; }
+        .btn-red { background: red; color: white; border: none; }
+        .btn-gray { background: #555; color: white; border: none; }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+        }
+        .modal-box {
+            background: white;
+            width: 300px;
+            margin: 120px auto;
+            padding: 20px;
+            border-radius: 6px;
         }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <h2>User Details</h2>
-    <p><b>Name:</b> <span id="name"></span></p>
-    <p><b>Age:</b> <span id="age"></span></p>
-    <p><b>Phone:</b> <span id="phone"></span></p>
-    <p><b>Email:</b> <span id="email"></span></p>
-    <p><b>Address:</b> <span id="address"></span></p>
-    <p><b>Pincode:</b> <span id="pincode"></span></p>
+<script>
+/* 🔐 ROUTE PROTECTION */
+if (!localStorage.getItem("loggedIn") || !localStorage.getItem("userData")) {
+    window.location.href = "login.html";
+}
+</script>
 
-    <button onclick="logout()">Logout</button>
+<div class="card">
+    <h2>User Profile</h2>
+
+    <!-- VIEW MODE -->
+    <div id="viewMode">
+        <div class="row"><b>Name:</b> <span id="vName"></span></div>
+        <div class="row"><b>Age:</b> <span id="vAge"></span></div>
+        <div class="row"><b>Phone:</b> <span id="vPhone"></span></div>
+        <div class="row"><b>Email:</b> <span id="vEmail"></span></div>
+        <div class="row"><b>Address:</b> <span id="vAddress"></span></div>
+        <div class="row"><b>Pincode:</b> <span id="vPincode"></span></div>
+
+        <button class="btn-blue" onclick="enableEdit()">Update Profile</button>
+        <button class="btn-gray" onclick="openModal()">Change Password</button>
+        <button class="btn-red" onclick="logout()">Logout</button>
+    </div>
+
+    <!-- EDIT MODE -->
+    <div id="editMode" style="display:none;">
+        <input id="eName" placeholder="Name">
+        <input id="eAge" placeholder="Age">
+        <input id="ePhone" placeholder="Phone">
+        <input id="eEmail" disabled>
+        <input id="eAddress" placeholder="Address">
+        <input id="ePincode" placeholder="Pincode">
+
+        <button class="btn-green" onclick="saveChanges()">Update the Changes</button>
+    </div>
+</div>
+
+<!-- CHANGE PASSWORD MODAL -->
+<div class="modal" id="passModal">
+    <div class="modal-box">
+        <h3>Change Password</h3>
+        <input type="password" id="newPass" placeholder="New Password">
+        <input type="password" id="confirmPass" placeholder="Confirm Password">
+
+        <label>
+            <input type="checkbox" id="confirmCheck">
+            I confirm to change my password
+        </label>
+
+        <button class="btn-green" onclick="changePassword()">Save</button>
+        <button onclick="closeModal()">Cancel</button>
+    </div>
 </div>
 
 <script>
-if (!localStorage.getItem("loggedIn")) {
-    window.location.href = "login.html";
-}
-
 let user = JSON.parse(localStorage.getItem("userData"));
 
-name.innerText = user.name;
-age.innerText = user.age;
-phone.innerText = user.phone;
-email.innerText = user.email;
-address.innerText = user.address;
-pincode.innerText = user.pincode;
+/* Display user data */
+vName.innerText = user.name;
+vAge.innerText = user.age;
+vPhone.innerText = user.phone;
+vEmail.innerText = user.email;
+vAddress.innerText = user.address;
+vPincode.innerText = user.pincode;
 
+/* Enable edit mode */
+function enableEdit() {
+    viewMode.style.display = "none";
+    editMode.style.display = "block";
+
+    eName.value = user.name;
+    eAge.value = user.age;
+    ePhone.value = user.phone;
+    eEmail.value = user.email;
+    eAddress.value = user.address;
+    ePincode.value = user.pincode;
+}
+
+/* Save updated profile */
+function saveChanges() {
+    user.name = eName.value;
+    user.age = eAge.value;
+    user.phone = ePhone.value;
+    user.address = eAddress.value;
+    user.pincode = ePincode.value;
+
+    localStorage.setItem("userData", JSON.stringify(user));
+    location.reload();
+}
+
+/* Password modal */
+function openModal() {
+    passModal.style.display = "block";
+}
+function closeModal() {
+    passModal.style.display = "none";
+}
+
+/* Change password logic */
+function changePassword() {
+    let p1 = newPass.value;
+    let p2 = confirmPass.value;
+
+    if (!confirmCheck.checked) {
+        alert("Please confirm password change");
+        return;
+    }
+    if (p1 === "" || p2 === "") {
+        alert("Password fields cannot be empty");
+        return;
+    }
+    if (p1 !== p2) {
+        alert("Passwords do not match");
+        return;
+    }
+
+    user.password = p1;
+    localStorage.setItem("userData", JSON.stringify(user));
+    alert("Password updated successfully");
+    closeModal();
+}
+
+/* Logout */
 function logout() {
     localStorage.removeItem("loggedIn");
-    alert("Logged out successfully");
     window.location.href = "login.html";
 }
 </script>
